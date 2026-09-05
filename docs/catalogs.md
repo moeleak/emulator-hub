@@ -57,3 +57,5 @@ The default engine catalog is maintained by `lineageos-avd/android-emulator`. An
 ```
 
 `host_os` is `linux`, `windows`, or `macos`; `host_arch` is `x86_64` or `aarch64`. `executable` must be a relative path inside the package. Platform-tools are obtained separately from Google's repository metadata after license acceptance.
+
+`version` starts with the numeric upstream version, such as `35.3.8`. Release tags belong in the asset URL; a tag prefix such as `source-` or `engine-` is not part of the version used for compatibility and upgrade ordering.

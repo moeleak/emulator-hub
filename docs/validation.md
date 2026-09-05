@@ -33,6 +33,10 @@ KVM/HVF acceleration and the matching modified x86_64/ARM64 LineageOS r3 images 
 
 The packaged Apple Silicon SDK ZIP was additionally served unchanged over localhost and installed using `hub_engine::provision::install_tool`. SHA256 verification, safe extraction, executable permissions, detected version 35.3.8.0, and a full isolated-SDK smoke run passed. This checks the distributable package in addition to the build output directory.
 
+The final Linux SDK ZIP also passed KVM boot, KernelSU Manager, authenticated gRPC, clipboard and snapshot/ADB reconnection checks; all 250 runtime files match the tested build output. An initial run during heavy shared-host load displayed a SystemUI ANR. That observation was retained, and the same archive passed a fresh-device run after load decreased.
+
+The [source-built SDK release](https://github.com/lineageos-avd/android-emulator/releases/tag/source-35.3.8-preview.1) contains these exact packages and `build-validation.json`. All 14 initial assets, including the split corresponding-source archive, match the published checksums and GitHub asset digests. The default HTTPS catalog matches the release's catalog byte-for-byte and advertises version 35.3.8 for the two completed platforms.
+
 Other source-engine platforms are published by the separate [engine build workflow](https://github.com/lineageos-avd/android-emulator/actions). The default engine catalog advertises only completed artifacts; missing platform packages produce an availability message rather than an implicit official-binary fallback.
 
 ## LineageOS and kernel provenance

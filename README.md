@@ -62,6 +62,8 @@ The [imported r3 image release](https://github.com/lineageos-avd/android/release
 
 Google Emulator's public `emu-36-1-release` source baseline is separately versioned from the latest Google SDK binary downloads. The source-built catalog only advertises completed artifacts. If a host build is not yet published, installation reports that state instead of substituting another engine.
 
+The [source-built SDK release](https://github.com/lineageos-avd/android-emulator/releases/tag/source-35.3.8-preview.1) includes binaries, exact manifests, build and package validation, corresponding source archives, and checksums. Hub reads its platform packages through the maintained engine catalog.
+
 ## Architecture and interfaces
 
 - `hub-core`: catalog adapters, verified/resumable downloads, safe extraction, persistent images and private AVDs.
