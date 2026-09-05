@@ -8,6 +8,8 @@ A native Material 3 Android desktop, built with Rust, [material-ui-rs](https://g
 
 Emulator Hub is a **preview**. Host support is Windows x86_64, Linux x86_64, and macOS x86_64/Apple Silicon. Guests match the host CPU: x86_64 or arm64-v8a. ARM-only APK translation on x86_64 hosts is outside this release.
 
+[Download the preview](https://github.com/moeleak/emulator-hub/releases/tag/v0.1.0-preview.2) for native installers, portable archives, and SHA256 checksums. See the [validation record](docs/validation.md) for tested host/guest combinations.
+
 Linux release artifacts target glibc 2.35 or newer. On NixOS, the flake supplies the matching runtime environment.
 
 ## Develop
@@ -37,7 +39,7 @@ nix build
 1. Open **Settings → Emulator engine** to install the published source-built engine and ADB. You can explicitly select Google official tools or existing local executables. Google package licenses are shown before installation.
 2. Open **Images**, choose a compatible image, and download it. The library also accepts a local SDK system-image ZIP or a custom HTTPS Hub JSON / SDK XML repository.
 3. Create a device with its own memory, CPU, display, writable storage, and AVD directory.
-4. Start the device. Click the embedded display for keyboard and mouse input. The toolbar provides Android navigation, APK installation, clipboard transfer, screenshots, and a manual snapshot.
+4. Start the device. Click the embedded display for keyboard and mouse input. The toolbar provides power/wake, Android navigation, APK installation, clipboard transfer, screenshots, and a manual snapshot. Scroll the toolbar to reach additional controls in a compact window.
 
 The app defaults to Simplified Chinese, with English, light/dark/system appearance in Settings. It registers Roboto, Material Symbols, and bundled Noto Sans SC fonts.
 

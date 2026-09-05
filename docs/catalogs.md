@@ -22,7 +22,7 @@ Hub JSON sources use HTTPS and `schema_version: 1`. Each image has an ID unique 
       },
       "license": "License text for the package",
       "license_id": "lineage-os-notices",
-      "min_engine_version": "36.1.0",
+      "min_engine_version": "35.3.8",
       "channel": "preview"
     }
   ]
@@ -46,7 +46,7 @@ The default engine catalog is maintained by `lineageos-avd/android-emulator`. An
     {
       "host_os": "macos",
       "host_arch": "aarch64",
-      "version": "36.1.9",
+      "version": "35.3.8",
       "url": "https://example.org/releases/v1/emulator-macos-arm64.zip",
       "size": 123456,
       "sha256": "<64 hexadecimal characters from the actual archive>",

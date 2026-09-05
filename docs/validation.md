@@ -4,14 +4,14 @@ Recorded on 2026-09-05. Build success and hardware-accelerated guest validation 
 
 ## Desktop application
 
-[The first four-host Actions run](https://github.com/moeleak/emulator-hub/actions/runs/33933092828) passed formatting, strict Clippy, workspace tests, release compilation and native packaging for:
+[The preview.2 release workflow](https://github.com/moeleak/emulator-hub/actions/runs/33937394384) passed formatting, strict Clippy, workspace tests, release compilation and native packaging for:
 
 | Host | Build and package | Guest runtime evidence |
 | --- | --- | --- |
 | Linux x86_64 | Passed; AppImage/archive and Nix build | Custom LineageOS r3 on KVM using source-built Emulator 35.3.8.0 |
 | Windows x86_64 | Passed; installer and portable ZIP | WHPX validation remains pending |
 | macOS Intel | Passed; DMG/archive | HVF validation remains pending |
-| macOS Apple Silicon | Passed; DMG/archive and local Nix build | Custom LineageOS r3 on HVF using installed Emulator 36.6.11 |
+| macOS Apple Silicon | Passed; DMG/archive and local Nix build | Custom LineageOS r3 on HVF using source-built Emulator 35.3.8.0 and installed Emulator 36.6.11 |
 
 The isolated runtime tests verified cold boot, authenticated gRPC, RGBA display frames, touch/key/wheel input, Unicode clipboard round-trip, PNG capture, ADB access, snapshot save/restore and owned-process cleanup. Fresh SDK layout was tested separately from the user's existing full SDK, including checking the SDK path in the engine's generated hardware configuration.
 
@@ -21,11 +21,17 @@ The interface has offscreen widget renders for Chinese/English, light/dark appea
 
 macOS preview bundles use ad-hoc signatures. Packaging checks verify the signature and ensure Mach-O dependencies resolve to bundled or system libraries rather than developer Nix store paths. Apple notarization is not configured.
 
+The Linux AppImage was downloaded from the [successful main run at the release commit](https://github.com/moeleak/emulator-hub/actions/runs/33936845079) and its SHA256 checked. Inspection of its embedded SquashFS confirmed that the app license, font license, third-party notices, and bundled native-library copyright/version records are inside the executable package. Its third-party notices match the repository file byte-for-byte. All eight preview.2 binary assets' published checksums match GitHub's asset digests; the downloaded Apple Silicon DMG and four checksum files were also verified locally.
+
 ## Source-built Google Emulator
 
 The public `emu-36-1-release` manifest is fixed at `9b25cad8e44cf99246a5ffd579f1c21122865ab5`, with QEMU at `9f0811e72acfc46edc39d3d0baedd796f7d03309`. The resulting upstream executable reports **35.3.8.0**; the release branch name and executable version are different version schemes.
 
-The Linux source build passed all **606 enabled upstream CTest cases**; two tests were already disabled upstream. KVM acceleration and the modified x86_64 LineageOS r3 were then checked together, including KernelSU Manager reporting Working and snapshot/ADB reconnection. Image catalog requirements are changed only for the architecture actually validated.
+The Linux source build passed all **606 enabled upstream CTest cases**; two tests were already disabled upstream. The Apple Silicon source build passed all **799 enabled upstream CTest cases**. Darwin patches fix legacy Mach exception stub linkage, accommodate valid zero timestamps for the kernel-loaded executable on newer dyld, and restrict the software Vulkan test environment to the relevant tests.
+
+KVM/HVF acceleration and the matching modified x86_64/ARM64 LineageOS r3 images were then checked together, including KernelSU Manager reporting Working, authenticated gRPC display and clipboard, and snapshot/ADB reconnection. Both image catalog entries require the empirically validated version 35.3.8. The [r3 release](https://github.com/lineageos-avd/android/releases/tag/lab-import-r3) includes validation JSON and PNG records for both hosts.
+
+The packaged Apple Silicon SDK ZIP was additionally served unchanged over localhost and installed using `hub_engine::provision::install_tool`. SHA256 verification, safe extraction, executable permissions, detected version 35.3.8.0, and a full isolated-SDK smoke run passed. This checks the distributable package in addition to the build output directory.
 
 Other source-engine platforms are published by the separate [engine build workflow](https://github.com/lineageos-avd/android-emulator/actions). The default engine catalog advertises only completed artifacts; missing platform packages produce an availability message rather than an implicit official-binary fallback.
 
