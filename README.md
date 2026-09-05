@@ -8,7 +8,7 @@ A native Material 3 Android desktop, built with Rust, [material-ui-rs](https://g
 
 Emulator Hub is a **preview**. Host support is Windows x86_64, Linux x86_64, and macOS x86_64/Apple Silicon. Guests match the host CPU: x86_64 or arm64-v8a. ARM-only APK translation on x86_64 hosts is outside this release.
 
-[Download the preview](https://github.com/moeleak/emulator-hub/releases/tag/v0.1.0-preview.2) for native installers, portable archives, and SHA256 checksums. See the [validation record](docs/validation.md) for tested host/guest combinations.
+[Download the preview](https://github.com/moeleak/emulator-hub/releases) for native installers, portable archives, and SHA256 checksums. See the [validation record](docs/validation.md) for tested host/guest combinations.
 
 Linux release artifacts target glibc 2.35 or newer. On NixOS, the flake supplies the matching runtime environment.
 
@@ -61,6 +61,8 @@ Use `EMULATOR_HUB_HOME=/absolute/path` for a separate workspace. Application sta
 | [android-emulator](https://github.com/lineageos-avd/android-emulator) | Pinned Google Emulator source recipe, builds and engine catalog |
 
 The [imported r3 image release](https://github.com/lineageos-avd/android/releases/tag/lab-import-r3) preserves the existing LineageOS 23.2 / Android 16 (API 36.1) ARM64 and x86_64 archives, Linux 6.12.89, and KernelSU-Next v3.3.0. Its hashes match the Lab artifacts. Imported images are distinguished from later manifest-driven rebuilds; no claim of bit-for-bit reproduction is made for the original build.
+
+The default image catalog now serves [revision 4](https://github.com/lineageos-avd/android/releases/tag/lineage-23.2-r4), rebuilt for both architectures by the pinned kernel/system Actions workflow. Both images passed guest validation with the published source-built emulator, and the ARM64 archive passed the Hub's actual remote download and installation flow.
 
 Google Emulator's public `emu-36-1-release` source baseline is separately versioned from the latest Google SDK binary downloads. The source-built catalog only advertises completed artifacts. If a host build is not yet published, installation reports that state instead of substituting another engine.
 
