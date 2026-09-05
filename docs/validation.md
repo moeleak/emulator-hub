@@ -4,14 +4,14 @@ Recorded on 2026-09-05. Build success and hardware-accelerated guest validation 
 
 ## Desktop application
 
-[The preview.2 release workflow](https://github.com/moeleak/emulator-hub/actions/runs/33937394384) passed formatting, strict Clippy, workspace tests, release compilation and native packaging for:
+[The preview.3 release workflow](https://github.com/moeleak/emulator-hub/actions/runs/33943560014) passed formatting, strict Clippy, workspace tests, release compilation and native packaging for:
 
 | Host | Build and package | Guest runtime evidence |
 | --- | --- | --- |
-| Linux x86_64 | Passed; AppImage/archive and Nix build | Custom LineageOS r3 on KVM using source-built Emulator 35.3.8.0 |
-| Windows x86_64 | Passed; installer and portable ZIP | WHPX validation remains pending |
+| Linux x86_64 | Passed; AppImage/archive and Nix build | Custom LineageOS r3/r4 on KVM using source-built Emulator 35.3.8.0 |
+| Windows x86_64 | Passed; installer, portable ZIP and final PE dependency check | WHPX validation remains pending |
 | macOS Intel | Passed; DMG/archive | HVF validation remains pending |
-| macOS Apple Silicon | Passed; DMG/archive and local Nix build | Custom LineageOS r3 on HVF using source-built Emulator 35.3.8.0 and installed Emulator 36.6.11 |
+| macOS Apple Silicon | Passed; DMG/archive and local Nix build | LineageOS r3/r4 on HVF with source-built 35.3.8.0; r3 also checked with installed 36.6.11 |
 
 The isolated runtime tests verified cold boot, authenticated gRPC, RGBA display frames, touch/key/wheel input, Unicode clipboard round-trip, PNG capture, ADB access, snapshot save/restore and owned-process cleanup. Fresh SDK layout was tested separately from the user's existing full SDK, including checking the SDK path in the engine's generated hardware configuration.
 
@@ -26,6 +26,8 @@ macOS preview bundles use ad-hoc signatures. Packaging checks verify the signatu
 The Linux AppImage was downloaded from the [successful main run at the release commit](https://github.com/moeleak/emulator-hub/actions/runs/33936845079) and its SHA256 checked. Inspection of its embedded SquashFS confirmed that the app license, font license, third-party notices, and bundled native-library copyright/version records are inside the executable package. Its third-party notices match the repository file byte-for-byte. All eight preview.2 binary assets' published checksums match GitHub's asset digests; the downloaded Apple Silicon DMG and four checksum files were also verified locally.
 
 The [preview.3 commit's four-platform and Nix run](https://github.com/moeleak/emulator-hub/actions/runs/33942877920) also passed. Its Windows ZIP was downloaded and the embedded `WINDOWS-RUNTIME-IMPORTS.json` verified against the EXE's actual SHA256. The final PE contains 17 Windows system-library imports and no Visual C++ redistributable dependency. This corrects preview.2's unbundled `VCRUNTIME140.dll` requirement through the target's static C runtime configuration; packaging now rejects that dependency and a report for different executable bytes.
+
+All eight [preview.3 binary assets](https://github.com/moeleak/emulator-hub/releases/tag/v0.1.0-preview.3) match the published checksums and GitHub asset digests. The downloaded Apple Silicon DMG, Windows ZIP and four checksum files were also checked locally. The [Windows release report](evidence/windows-runtime-imports-preview3.json) matches the actual EXE inside the published ZIP. Separate native Windows and LLVM checks confirmed that the verifier rejects a real delayed `VCRUNTIME140.dll` import as well as a regular import.
 
 ## Source-built Google Emulator
 

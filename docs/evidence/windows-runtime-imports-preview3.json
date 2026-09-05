@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "binary": "emulator-hub.exe",
+  "sha256": "fbc6492d8cf6695c428d2a91f02faa8c975cf8325b6c796c18a8fcbf1a1a0ad9",
+  "reader": "llvm-readobj.EXE",
+  "imports": [
+    "advapi32.dll",
+    "api-ms-win-core-synch-l1-2-0.dll",
+    "bcrypt.dll",
+    "bcryptprimitives.dll",
+    "combase.dll",
+    "dwmapi.dll",
+    "gdi32.dll",
+    "imm32.dll",
+    "kernel32.dll",
+    "ntdll.dll",
+    "ole32.dll",
+    "oleaut32.dll",
+    "opengl32.dll",
+    "shell32.dll",
+    "user32.dll",
+    "uxtheme.dll",
+    "ws2_32.dll"
+  ],
+  "redistributable_runtime_imports": [],
+  "status": "passed",
+  "scope": "Direct and delay-load PE imports; Windows 10 system DLLs remain required"
+}
