@@ -628,7 +628,11 @@ impl RunningInstance {
     }
     pub async fn load_snapshot(&self, name: &str) -> Result<()> {
         self.release_inputs().await?;
-        self.snapshot("load", name).await
+        self.snapshot("load", name).await?;
+        // The console acknowledges restore before adbd reconnects. Returning
+        // only when ADB is usable prevents the next APK/file action racing it.
+        self.adb(&["wait-for-device".as_ref()]).await?;
+        Ok(())
     }
     async fn snapshot(&self, operation: &str, name: &str) -> Result<()> {
         ensure!(
