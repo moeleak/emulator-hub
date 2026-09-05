@@ -2,6 +2,10 @@
 
 A native Material 3 Android desktop, built with Rust, [material-ui-rs](https://github.com/moeleak/material-ui-rs), and Google Android Emulator. Custom LineageOS images and Google SDK images share one library, with isolated data and snapshots for each device.
 
+![Emulator Hub device library](docs/images/ui-devices.png)
+
+*UI preview rendered from the application's widgets with example devices.*
+
 Emulator Hub is a **preview**. Host support is Windows x86_64, Linux x86_64, and macOS x86_64/Apple Silicon. Guests match the host CPU: x86_64 or arm64-v8a. ARM-only APK translation on x86_64 hosts is outside this release.
 
 ## Develop
