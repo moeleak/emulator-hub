@@ -17,7 +17,9 @@ The isolated runtime tests verified cold boot, authenticated gRPC, RGBA display 
 
 The original ARM64 ZIP was imported through the same core API used by the desktop, its digest verified, and a persistent private AVD created. Decoder, archive, range-download, checksum, ABI, Windows-path, port-lock and pinned-engine behavior have focused regression tests.
 
-The interface has offscreen widget renders for Chinese/English, light/dark appearance and narrow desktop layouts. These are layout checks, not desktop screen captures. Native OS window automation was unavailable in the development session because Accessibility/Screen Recording permissions were not granted. Audio uses the emulator's native output; audible playback was not separately assessed.
+The interface has offscreen widget renders for Chinese/English, light/dark appearance and narrow desktop layouts. These are layout checks, not desktop screen captures. Native OS window automation was unavailable in the development session because Accessibility/Screen Recording permissions were not granted.
+
+Audio uses the emulator's native output. A generated two-second 440 Hz WAV played by the preinstalled Twelve app produced 397 gRPC PCM packets and 192,511 nonzero samples in a private Apple Silicon AVD using the published source engine. Guest microphone input was disabled, and no host microphone or loopback recording was used. This [digital audio check](evidence/audio-macos-arm64.json) confirms a non-silent emulator output stream; physical speaker playback was not listened to.
 
 macOS preview bundles use ad-hoc signatures. Packaging checks verify the signature and ensure Mach-O dependencies resolve to bundled or system libraries rather than developer Nix store paths. Apple notarization is not configured.
 

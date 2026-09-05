@@ -1,0 +1,31 @@
+{
+  "audible_output_listened_to": false,
+  "capture_interface": "Google Emulator gRPC streamAudio",
+  "engine_version": "35.3.8.0 (35.3.8-36.1-hub.1)",
+  "guest_trigger": "Generated 2-second 440-Hz WAV played via MediaStore URI in preinstalled Twelve; guest microphone disabled",
+  "host_microphone_or_loopback_recording": false,
+  "sample_format": "signed 16-bit little endian, 48000 Hz stereo",
+  "statistics": {
+    "nonzero_samples": 192511,
+    "packets": 397,
+    "peak_absolute_s16": 97,
+    "rms_s16": 43.12447032785447,
+    "samples": 473686
+  },
+  "status": "non-silent PCM confirmed",
+  "recorded_at_utc": "2026-09-05T02:55:00.562578+00:00",
+  "cleanup_completed": true,
+  "source_sdk_zip_sha256": "66fbf4dd7b80915e0340cdd1cbd8be82670a77c71def7a52bb27d880959f146c",
+  "test_wav": {
+    "duration_seconds": 2,
+    "frequency_hz": 440,
+    "source_sample_rate_hz": 48000,
+    "source_channels": 1,
+    "source_peak_amplitude_s16": 4096,
+    "sha256": "1bb867ace608ec5eff3b0e740dd3bcd06013913806007af44915a668f831579e"
+  },
+  "prior_attempt": {
+    "trigger": "ADB shell-channel notification",
+    "result": "posted successfully but no gRPC PCM response within25s; did not establish playback"
+  }
+}
