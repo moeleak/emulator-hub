@@ -1,0 +1,31 @@
+[package]
+name = "emulator-hub"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Material 3 Android emulator desktop powered by Google Emulator"
+
+[[bin]]
+name = "emulator-hub"
+path = "src/main.rs"
+
+[dependencies]
+hub-core = { path = "../hub-core" }
+hub-engine = { path = "../hub-engine" }
+material-ui-rs = "=0.5.3"
+iced = { version = "0.14", features = ["tokio", "image-without-codecs", "advanced", "wgpu"] }
+tokio = { version = "1", features = ["rt-multi-thread", "sync", "time"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+anyhow = "1"
+uuid = { version = "1", features = ["v4", "serde"] }
+rfd = "0.15"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+open = "5"
+
+[dev-dependencies]
+iced_tiny_skia = { version = "0.14", features = ["geometry", "image", "svg"] }
+tiny-skia = { version = "0.11", features = ["png-format"] }

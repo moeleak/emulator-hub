@@ -1,0 +1,21 @@
+[workspace]
+members = ["crates/hub-app", "crates/hub-core", "crates/hub-engine"]
+default-members = ["crates/hub-app"]
+resolver = "2"
+
+[workspace.package]
+version = "0.1.0-preview.1"
+edition = "2024"
+rust-version = "1.88"
+license = "Apache-2.0"
+repository = "https://github.com/moeleak/emulator-hub"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+strip = true
+
+# iced 0.14 / wgpu 27 Metal ABI compatibility; same pin as material-ui-rs.
+[patch.crates-io.block]
+git = "https://github.com/Dicklesworthstone/rust-block.git"
+rev = "b39ae859d1ee8e8cb5eef6a516471f1578d26b96"

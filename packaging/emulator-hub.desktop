@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Emulator Hub
+Comment=Android Emulator and LineageOS device manager
+Exec=emulator-hub
+Icon=emulator-hub
+Terminal=false
+Categories=Development;Emulator;
+StartupWMClass=emulator-hub

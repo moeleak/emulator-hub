@@ -1,0 +1,29 @@
+[package]
+name = "hub-engine"
+version = "0.1.0"
+edition = "2024"
+license = "Apache-2.0"
+
+[dependencies]
+anyhow = "1"
+fs2 = "0.4"
+hub-core = { path = "../hub-core" }
+prost = "0.13"
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "stream", "json"] }
+roxmltree = "0.20"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "0.10"
+tokio = { version = "1", features = ["process", "fs", "io-util", "sync", "time", "net", "rt-multi-thread", "macros"] }
+tokio-stream = "0.1"
+tonic = { version = "0.12", features = ["transport"] }
+uuid = { version = "1", features = ["v4"] }
+zip = { version = "2.4", default-features = false, features = ["deflate"] }
+
+[build-dependencies]
+prost-build = "0.13"
+protoc-bin-vendored = "3"
+tonic-build = "0.12"
+
+[dev-dependencies]
+tempfile = "3"
