@@ -1,0 +1,3 @@
+[target.x86_64-pc-windows-msvc]
+# Include the MSVC C runtime in the distributed Windows executable.
+rustflags = ["-C", "target-feature=+crt-static"]

@@ -23,6 +23,8 @@ cargo run -p emulator-hub
 
 The flake pins the toolchain and native libraries. Linux and macOS use Nix; Windows builds use the same Rust version from `rust-toolchain.toml`, Visual Studio Build Tools, and the Windows SDK. WSL can use the Linux Nix shell, while a Windows emulator runs natively with WHPX.
 
+For native Windows development, use `cargo run -p emulator-hub --target x86_64-pc-windows-msvc`. The target configuration links the MSVC C runtime into the desktop executable, and packaging checks its final PE dependencies. Downloaded emulator engines have their own runtime dependencies and notices.
+
 On NixOS, use `nix run .` to start the application inside its FHS runtime. This also supplies the loader and libraries needed by downloaded Emulator/ADB binaries. For development, build with `nix develop --command cargo build -p emulator-hub`, then run `nix run .#runtime -- -c './target/debug/emulator-hub'`. `nix build .#native` produces the unwrapped application.
 
 ```sh

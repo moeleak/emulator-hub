@@ -8,6 +8,7 @@ import platform
 import plistlib
 import shutil
 import subprocess
+import sys
 import tarfile
 import zipfile
 
@@ -92,6 +93,7 @@ def main():
     parser.add_argument("--version", required=True)
     parser.add_argument("--binary", type=Path)
     parser.add_argument("--appimagetool", type=Path)
+    parser.add_argument("--windows-runtime-report", type=Path)
     args = parser.parse_args()
     if not all(c.isalnum() or c in '.-_' for c in args.version):
         parser.error("version contains unsafe filename characters")
@@ -113,6 +115,12 @@ def main():
         shutil.copy2(ROOT / filename, staging / filename)
     shutil.copy2(ROOT / 'crates/hub-app/assets/fonts/OFL-1.1.txt', staging / 'FONT-OFL-1.1.txt')
     if platform.system() == 'Windows':
+        verification = [sys.executable, str(ROOT / 'scripts/verify-windows-runtime.py'),
+                        '--binary', str(staging / binary.name),
+                        '--output', str(staging / 'WINDOWS-RUNTIME-IMPORTS.json')]
+        if args.windows_runtime_report:
+            verification += ['--existing-report', str(args.windows_runtime_report)]
+        run(*verification)
         shutil.make_archive(str(dist / name), 'zip', staging)
         makensis = shutil.which('makensis') or str(Path(os.environ.get('ProgramFiles(x86)', 'C:/Program Files (x86)')) / 'NSIS' / 'makensis.exe')
         run(makensis, f'/DVERSION={args.version}', f'/DSOURCE={staging}', f'/DOUTPUT={dist / (name + "-setup.exe")}', str(ROOT / 'packaging' / 'windows.nsi'))

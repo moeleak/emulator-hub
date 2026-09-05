@@ -44,6 +44,9 @@ jobs:
       - run: cargo clippy --locked --workspace --all-targets --target ${{ matrix.target }} -- -D warnings
       - run: cargo test --locked --workspace --target ${{ matrix.target }}
       - run: cargo build --locked --release -p emulator-hub --target ${{ matrix.target }}
+      - name: Verify Windows executable has no redistributable CRT dependency
+        if: runner.os == 'Windows'
+        run: python scripts/verify-windows-runtime.py --binary target/${{ matrix.target }}/release/emulator-hub.exe --output target/windows-runtime-imports.json
       - name: Download verified AppImage packaging tool
         if: runner.os == 'Linux'
         run: |
@@ -59,6 +62,7 @@ jobs:
           if [[ "$GITHUB_REF" == refs/tags/* ]]; then version="${GITHUB_REF_NAME#v}"; fi
           args=()
           if [[ "$RUNNER_OS" == Linux ]]; then args+=(--appimagetool "$RUNNER_TEMP/appimagetool"); fi
+          if [[ "$RUNNER_OS" == Windows ]]; then args+=(--windows-runtime-report target/windows-runtime-imports.json); fi
           python scripts/package.py --target "$TARGET" --version "$version" "${args[@]}"
       - uses: actions/upload-artifact@v4
         with:
