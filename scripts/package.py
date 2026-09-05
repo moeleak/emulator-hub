@@ -160,6 +160,14 @@ def main():
         (appdir / 'usr' / 'bin').mkdir(parents=True)
         libs = appdir / 'usr' / 'lib'
         libs.mkdir()
+        license_dir = appdir / 'usr/share/licenses/emulator-hub'
+        license_dir.mkdir(parents=True)
+        for filename in ['LICENSE', 'THIRD_PARTY_NOTICES.txt', 'FONT-OFL-1.1.txt']:
+            shutil.copy2(staging / filename, license_dir / filename)
+        dependency_notices = license_dir / 'system-libraries'
+        dependency_notices.mkdir()
+        package_owners = set()
+        library_origins = []
         shutil.copy2(binary, appdir / 'usr' / 'bin' / binary.name)
         shutil.copy2(ROOT / 'packaging/emulator-hub.desktop', appdir)
         shutil.copy2(ROOT / 'packaging/emulator-hub.svg', appdir)
@@ -170,7 +178,8 @@ def main():
         ldconfig = subprocess.check_output(['ldconfig', '-p'], text=True)
         dynamic = ['libX11.so.6', 'libXcursor.so.1', 'libXi.so.6', 'libXrandr.so.2',
                    'libwayland-client.so.0', 'libwayland-cursor.so.0', 'libwayland-egl.so.1',
-                   'libxkbcommon.so.0', 'libvulkan.so.1', 'libGL.so.1', 'libEGL.so.1', 'libasound.so.2']
+                   'libxkbcommon.so.0', 'libvulkan.so.1', 'libGL.so.1', 'libEGL.so.1', 'libasound.so.2',
+                   'libpng16.so.16', 'libbsd.so.0', 'libmd.so.0', 'libxml2.so.2', 'libxslt.so.1']
         pending = [binary]
         for soname in dynamic:
             matches = [line.split('=>')[-1].strip() for line in ldconfig.splitlines() if line.strip().startswith(soname + ' ')]
@@ -185,12 +194,34 @@ def main():
             visited.add(path.name)
             if path != binary:
                 shutil.copy2(path.resolve(), libs / path.name)
+                # Keep the distro's actual copyright notices for bundled C/C++
+                # runtime libraries, in addition to Cargo's dependency notices.
+                owner = None
+                if shutil.which('dpkg-query'):
+                    for candidate in [str(path), str(path.resolve()), str(path.resolve()).replace('/usr/lib/', '/lib/', 1)]:
+                        lookup = subprocess.run(['dpkg-query', '-S', candidate], capture_output=True, text=True)
+                        if lookup.returncode == 0:
+                            owner = lookup.stdout.split(': /', 1)[0].split(',')[0].strip()
+                            break
+                if owner:
+                    package = owner.split(':')[0]
+                    if package not in package_owners:
+                        notice = Path('/usr/share/doc') / package / 'copyright'
+                        if not notice.is_file():
+                            raise RuntimeError(f'Copyright notice missing for bundled {owner}')
+                        shutil.copy2(notice, dependency_notices / (package + '.txt'))
+                        package_owners.add(package)
+                    version = subprocess.check_output(['dpkg-query', '-W', '-f=${Version}', owner], text=True)
+                    library_origins.append(f'{path.name}: {owner} {version}')
+                else:
+                    raise RuntimeError(f'Cannot identify license owner for bundled library {path}')
             output = subprocess.check_output(['ldd', str(path)], text=True)
             for line in output.splitlines():
                 if '=>' in line and 'not found' not in line:
                     dependency = line.split('=>')[1].strip().split(' ')[0]
                     if dependency.startswith('/'):
                         pending.append(Path(dependency))
+        (dependency_notices / 'PACKAGES.txt').write_text('\n'.join(sorted(library_origins)) + '\n')
         env = os.environ | {'ARCH': 'x86_64', 'APPIMAGE_EXTRACT_AND_RUN': '1'}
         run(str(args.appimagetool.resolve()), str(appdir), str(dist / (name + '.AppImage')), env=env)
     shutil.rmtree(staging)

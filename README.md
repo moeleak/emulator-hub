@@ -8,6 +8,8 @@ A native Material 3 Android desktop, built with Rust, [material-ui-rs](https://g
 
 Emulator Hub is a **preview**. Host support is Windows x86_64, Linux x86_64, and macOS x86_64/Apple Silicon. Guests match the host CPU: x86_64 or arm64-v8a. ARM-only APK translation on x86_64 hosts is outside this release.
 
+Linux release artifacts target glibc 2.35 or newer. On NixOS, the flake supplies the matching runtime environment.
+
 ## Develop
 
 ```sh

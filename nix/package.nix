@@ -4,7 +4,7 @@ let
   runtimeLibs = [ alsa-lib libxkbcommon wayland libGL vulkan-loader xorg.libX11 xorg.libXcursor xorg.libXi xorg.libXrandr ];
 in rustPlatform.buildRustPackage {
   pname = "emulator-hub";
-  version = "0.1.0";
+  version = (lib.importTOML ../Cargo.toml).workspace.package.version;
   src = lib.cleanSourceWith {
     src = ../.;
     filter = path: type:
