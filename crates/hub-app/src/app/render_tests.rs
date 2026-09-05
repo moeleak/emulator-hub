@@ -111,6 +111,17 @@ fn render_pages() {
         app.dialog = None;
         app.navigate(Page::Images);
         draw(&app, &output.join(format!("{name}-catalog.png")));
+        app.selected = Some("qa-one".into());
+        app.frame = Some((
+            iced::widget::image::Handle::from_rgba(
+                1080,
+                1920,
+                [24u8, 24, 24, 255].repeat(1080 * 1920),
+            ),
+            1080,
+            1920,
+        ));
+        draw(&app, &output.join(format!("{name}-running.png")));
     }
     println!("Offscreen widget renders: {}", output.display());
 }

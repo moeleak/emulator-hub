@@ -393,6 +393,9 @@ fn update(app: &mut App, message: Message) -> Task<Message> {
                 && let Some(session) = app.sessions.get_mut(id)
                 && let Some(frame) = session.latest_frame()
             {
+                if frame.is_none() {
+                    session.release_input();
+                }
                 app.frame = frame;
             }
             let errors: Vec<_> = app

@@ -838,8 +838,8 @@ fn running(app: &App) -> Element<'_, Message> {
                     app.t("等待设备画面", "Waiting for display")
                 }),
                 text::body_medium(app.t(
-                    "首次启动可能需要几分钟。",
-                    "The first boot may take a few minutes."
+                    "首次启动可能需要几分钟。屏幕休眠时可用右侧电源键唤醒。",
+                    "The first boot may take a few minutes. Use Power to wake a sleeping display."
                 ))
             ]
             .spacing(20)
@@ -850,6 +850,11 @@ fn running(app: &App) -> Element<'_, Message> {
         .into()
     };
     let controls = column![
+        icon_action(
+            "power_settings_new",
+            app.t("电源 / 唤醒", "Power / wake"),
+            Message::AndroidKey("Power")
+        ),
         icon_action(
             "arrow_back",
             app.t("返回", "Back"),
@@ -900,7 +905,7 @@ fn running(app: &App) -> Element<'_, Message> {
     .width(56);
     column![
         toolbar,
-        row![display, controls].spacing(16).height(Length::Fill),
+        row![display, scrollable(controls).width(64).height(Length::Fill)].spacing(16).height(Length::Fill),
         text::body_small(app.t(
             "点击画面后可使用键盘和鼠标。切换页面或窗口会释放按键。",
             "Click the display for keyboard and mouse input. Switching pages or windows releases held input."

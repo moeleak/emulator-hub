@@ -44,6 +44,7 @@ pub fn view<'a, Message: 'a>(
     )
     .width(Length::Fill)
     .height(Length::Fill)
+    .clip(true)
     .style(|_| iced::widget::container::Style {
         background: Some(iced::Color::BLACK.into()),
         ..Default::default()
