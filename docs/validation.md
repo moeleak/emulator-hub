@@ -1,6 +1,6 @@
 # Preview validation
 
-Recorded on 2026-09-05. Build success and hardware-accelerated guest validation are tracked separately.
+Build and runtime checks recorded on 2026-09-05; publication rechecked on 2026-09-07. Build success and hardware-accelerated guest validation are tracked separately.
 
 ## Desktop application
 
@@ -49,7 +49,13 @@ The [final Windows SDK verification](https://github.com/lineageos-avd/android-em
 
 The four helper-source assets and 12 Windows SDK/validation assets were appended to the release and checked against GitHub digests. The original 18 assets stayed byte-for-byte unchanged when the SDK was added. The maintained catalog now includes Windows with the same published ZIP digest and byte count; WHPX guest boot remains pending.
 
-Other source-engine platforms are published by the separate [engine build workflow](https://github.com/lineageos-avd/android-emulator/actions). The default engine catalog advertises only completed artifacts; missing platform packages produce an availability message rather than an implicit official-binary fallback.
+The [Intel Mac source build](https://github.com/lineageos-avd/android-emulator/actions/runs/33954562146) passed at recipe `3d5639cba781feb1a4c6c688249fcebf810e0252`. Its main and isolated Vulkan groups contain 811 distinct CTest cases: **795 passed**, 8 skipped under their upstream conditions, and 8 were already disabled; there were no failures. The final socket regression fixture handles a pending TCP peer reset and gives asynchronous close processing time between bounded retries, while retaining the eventual broken-pipe error and no-SIGPIPE assertions. Production socket code is unchanged.
+
+An [independent native Intel SDK verification](https://github.com/lineageos-avd/android-emulator/actions/runs/33963251405) downloaded the completed build artifact, checked its digest and embedded provenance, safely extracted all 251 entries, and executed the packaged emulator. It reported version 35.3.8.0 and exit code 0. The published `sdk-repo-darwin-emulator-33.zip` is 256,801,856 bytes with SHA256 `25fad6a1ce9ff34dd41ca32237aeae41cf18bc4c696beb0db6b5e6f9200420b7`. Its [build validation record](https://github.com/lineageos-avd/android-emulator/releases/download/source-35.3.8-preview.1/build-validation-darwin-x86_64.json) records every skipped/disabled case and the exact corresponding recipe bundle. Intel Mac HVF guest boot remains unverified.
+
+Ten Intel SDK, source and validation assets were appended to the existing release; the previous 30 assets retained their original bytes. The [maintained engine catalog](https://raw.githubusercontent.com/lineageos-avd/android-emulator/main/catalog.json) now serves all four host targets: Linux x86_64, Windows x86_64, macOS x86_64 and macOS aarch64. Public download endpoints, byte counts and GitHub asset digests were checked against the catalog. The desktop discovers these packages through its existing source-built engine setting.
+
+The same final recipe also passed the Linux, Windows and Apple Silicon jobs in the [automatic matrix run](https://github.com/lineageos-avd/android-emulator/actions/runs/33954561578). That run's Intel job was replaced by the successful Intel-only run above under the workflow's per-target concurrency rule, so the matrix run itself is marked cancelled. These builds verify the current four-host workflow; existing published packages keep their recorded original recipe commits and checksums.
 
 ## LineageOS and kernel provenance
 
