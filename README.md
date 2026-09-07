@@ -66,7 +66,7 @@ The default image catalog now serves [revision 4](https://github.com/lineageos-a
 
 Google Emulator's public `emu-36-1-release` source baseline is separately versioned from the latest Google SDK binary downloads. The source-built catalog only advertises completed artifacts. If a host build is not yet published, installation reports that state instead of substituting another engine.
 
-The [source-built SDK release](https://github.com/lineageos-avd/android-emulator/releases/tag/source-35.3.8-preview.1) now includes all four native host packages: Linux x86_64, Windows x86_64, Intel Mac and Apple Silicon. Exact manifests, build and package validation, corresponding source archives, and checksums accompany the binaries. Hub reads these packages through the maintained engine catalog.
+The [source-built SDK release](https://github.com/lineageos-avd/android-emulator/releases/tag/source-35.3.8-preview.1) contains only the four native host packages: Linux x86_64, Windows x86_64, Intel Mac and Apple Silicon. Exact manifests, build and package validation, corresponding source archives, and checksums are available in the [companion source and verification release](https://github.com/lineageos-avd/android-emulator/releases/tag/source-35.3.8-preview.1-support). Hub reads the SDK packages through the maintained engine catalog.
 
 ## Architecture and interfaces
 
